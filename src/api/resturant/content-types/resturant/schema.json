@@ -1,0 +1,48 @@
+{
+  "kind": "collectionType",
+  "collectionName": "resturantes",
+  "info": {
+    "singularName": "resturant",
+    "pluralName": "resturantes",
+    "displayName": "Resturantes",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "ubicacion": {
+      "type": "string"
+    },
+    "fotografia": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "direccion": {
+      "type": "string"
+    },
+    "horario_atencion": {
+      "type": "string"
+    },
+    "especialidad": {
+      "type": "string"
+    },
+    "rango_precios": {
+      "type": "string"
+    },
+    "establecimiento": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::establecimiento.establecimiento",
+      "inversedBy": "resturante"
+    }
+  }
+}

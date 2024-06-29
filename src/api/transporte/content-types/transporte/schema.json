@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "transportes",
+  "info": {
+    "singularName": "transporte",
+    "pluralName": "transportes",
+    "displayName": "Transportes"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nombre": {
+      "type": "string"
+    },
+    "descripcion": {
+      "type": "string"
+    },
+    "fotografia": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "costo_hora": {
+      "type": "decimal"
+    },
+    "establecimiento": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::establecimiento.establecimiento",
+      "inversedBy": "transporte"
+    }
+  }
+}
