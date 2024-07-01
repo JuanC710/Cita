@@ -590,6 +590,53 @@ export interface PluginContentReleasesReleaseAction
   };
 }
 
+export interface PluginI18NLocale extends Schema.CollectionType {
+  collectionName: 'i18n_locale';
+  info: {
+    singularName: 'locale';
+    pluralName: 'locales';
+    collectionName: 'locales';
+    displayName: 'Locale';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+          max: 50;
+        },
+        number
+      >;
+    code: Attribute.String & Attribute.Unique;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUsersPermissionsPermission
   extends Schema.CollectionType {
   collectionName: 'up_permissions';
@@ -740,59 +787,44 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface PluginI18NLocale extends Schema.CollectionType {
-  collectionName: 'i18n_locale';
+export interface ApiCitaCita extends Schema.CollectionType {
+  collectionName: 'citas';
   info: {
-    singularName: 'locale';
-    pluralName: 'locales';
-    collectionName: 'locales';
-    displayName: 'Locale';
+    singularName: 'cita';
+    pluralName: 'citas';
+    displayName: 'citas';
     description: '';
   };
   options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
+    draftAndPublish: true;
   };
   attributes: {
-    name: Attribute.String &
-      Attribute.SetMinMax<
-        {
-          min: 1;
-          max: 50;
-        },
-        number
-      >;
-    code: Attribute.String & Attribute.Unique;
+    establecimientos: Attribute.Relation<
+      'api::cita.cita',
+      'oneToMany',
+      'api::establecimiento.establecimiento'
+    >;
+    cuenta: Attribute.Relation<
+      'api::cita.cita',
+      'oneToOne',
+      'api::cuenta.cuenta'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'plugin::i18n.locale',
-      'oneToOne',
-      'admin::user'
-    > &
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::cita.cita', 'oneToOne', 'admin::user'> &
       Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'plugin::i18n.locale',
-      'oneToOne',
-      'admin::user'
-    > &
+    updatedBy: Attribute.Relation<'api::cita.cita', 'oneToOne', 'admin::user'> &
       Attribute.Private;
   };
 }
 
-export interface ApiAdministradorAdministrador extends Schema.CollectionType {
-  collectionName: 'administradores';
+export interface ApiCuentaCuenta extends Schema.CollectionType {
+  collectionName: 'cuentas';
   info: {
-    singularName: 'administrador';
-    pluralName: 'administradores';
-    displayName: 'administradores';
+    singularName: 'cuenta';
+    pluralName: 'cuentas';
+    displayName: 'cuentas';
     description: '';
   };
   options: {
@@ -800,24 +832,30 @@ export interface ApiAdministradorAdministrador extends Schema.CollectionType {
   };
   attributes: {
     nombre: Attribute.String;
-    email: Attribute.Email;
+    correo: Attribute.String;
     telefono: Attribute.String;
+    rol: Attribute.Integer;
     establecimientos: Attribute.Relation<
-      'api::administrador.administrador',
-      'oneToMany',
+      'api::cuenta.cuenta',
+      'manyToMany',
       'api::establecimiento.establecimiento'
+    >;
+    cita: Attribute.Relation<
+      'api::cuenta.cuenta',
+      'oneToOne',
+      'api::cita.cita'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::administrador.administrador',
+      'api::cuenta.cuenta',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::administrador.administrador',
+      'api::cuenta.cuenta',
       'oneToOne',
       'admin::user'
     > &
@@ -843,13 +881,7 @@ export interface ApiEstablecimientoEstablecimiento
     razon_social: Attribute.String;
     direccion: Attribute.String;
     telefono: Attribute.String;
-    imagen_logotipo: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     tipo_establecimiento: Attribute.String;
-    administradore: Attribute.Relation<
-      'api::establecimiento.establecimiento',
-      'manyToOne',
-      'api::administrador.administrador'
-    >;
     hotel: Attribute.Relation<
       'api::establecimiento.establecimiento',
       'oneToOne',
@@ -864,6 +896,17 @@ export interface ApiEstablecimientoEstablecimiento
       'api::establecimiento.establecimiento',
       'oneToOne',
       'api::transporte.transporte'
+    >;
+    imagen: Attribute.String;
+    cuentas: Attribute.Relation<
+      'api::establecimiento.establecimiento',
+      'manyToMany',
+      'api::cuenta.cuenta'
+    >;
+    cita: Attribute.Relation<
+      'api::establecimiento.establecimiento',
+      'manyToOne',
+      'api::cita.cita'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -934,7 +977,6 @@ export interface ApiResturantResturant extends Schema.CollectionType {
   };
   attributes: {
     ubicacion: Attribute.String;
-    fotografia: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     direccion: Attribute.String;
     horario_atencion: Attribute.String;
     especialidad: Attribute.String;
@@ -944,6 +986,7 @@ export interface ApiResturantResturant extends Schema.CollectionType {
       'oneToOne',
       'api::establecimiento.establecimiento'
     >;
+    imagen: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -968,6 +1011,7 @@ export interface ApiTransporteTransporte extends Schema.CollectionType {
     singularName: 'transporte';
     pluralName: 'transportes';
     displayName: 'Transportes';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -975,13 +1019,13 @@ export interface ApiTransporteTransporte extends Schema.CollectionType {
   attributes: {
     nombre: Attribute.String;
     descripcion: Attribute.String;
-    fotografia: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     costo_hora: Attribute.Decimal;
     establecimiento: Attribute.Relation<
       'api::transporte.transporte',
       'oneToOne',
       'api::establecimiento.establecimiento'
     >;
+    imagen: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1014,11 +1058,12 @@ declare module '@strapi/types' {
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
+      'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'plugin::i18n.locale': PluginI18NLocale;
-      'api::administrador.administrador': ApiAdministradorAdministrador;
+      'api::cita.cita': ApiCitaCita;
+      'api::cuenta.cuenta': ApiCuentaCuenta;
       'api::establecimiento.establecimiento': ApiEstablecimientoEstablecimiento;
       'api::hotel.hotel': ApiHotelHotel;
       'api::resturant.resturant': ApiResturantResturant;

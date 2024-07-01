@@ -27,25 +27,8 @@
     "telefono": {
       "type": "string"
     },
-    "imagen_logotipo": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
-    },
     "tipo_establecimiento": {
       "type": "string"
-    },
-    "administradore": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::administrador.administrador",
-      "inversedBy": "establecimientos"
     },
     "hotel": {
       "type": "relation",
@@ -64,6 +47,21 @@
       "relation": "oneToOne",
       "target": "api::transporte.transporte",
       "mappedBy": "establecimiento"
+    },
+    "imagen": {
+      "type": "string"
+    },
+    "cuentas": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::cuenta.cuenta",
+      "mappedBy": "establecimientos"
+    },
+    "cita": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::cita.cita",
+      "inversedBy": "establecimientos"
     }
   }
 }

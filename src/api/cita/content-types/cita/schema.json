@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "citas",
+  "info": {
+    "singularName": "cita",
+    "pluralName": "citas",
+    "displayName": "citas",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "establecimientos": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::establecimiento.establecimiento",
+      "mappedBy": "cita"
+    },
+    "cuenta": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::cuenta.cuenta",
+      "inversedBy": "cita"
+    }
+  }
+}

@@ -15,17 +15,6 @@
     "ubicacion": {
       "type": "string"
     },
-    "fotografia": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
-    },
     "direccion": {
       "type": "string"
     },
@@ -43,6 +32,9 @@
       "relation": "oneToOne",
       "target": "api::establecimiento.establecimiento",
       "inversedBy": "resturante"
+    },
+    "imagen": {
+      "type": "string"
     }
   }
 }
