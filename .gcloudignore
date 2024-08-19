@@ -1,0 +1,8 @@
+app.yaml
+.gcloudignore
+.git
+.gitignore
+node_modules/
+#!include:.gitignore
+!.env
+yarn.lock  # If you're using Yarn

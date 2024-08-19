@@ -799,16 +799,22 @@ export interface ApiCitaCita extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    establecimientos: Attribute.Relation<
-      'api::cita.cita',
-      'oneToMany',
-      'api::establecimiento.establecimiento'
-    >;
     cuenta: Attribute.Relation<
       'api::cita.cita',
       'oneToOne',
       'api::cuenta.cuenta'
     >;
+    resturante: Attribute.Relation<
+      'api::cita.cita',
+      'oneToOne',
+      'api::resturant.resturant'
+    >;
+    transporte: Attribute.Relation<
+      'api::cita.cita',
+      'oneToOne',
+      'api::transporte.transporte'
+    >;
+    hotel: Attribute.Relation<'api::cita.cita', 'oneToOne', 'api::hotel.hotel'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -839,11 +845,6 @@ export interface ApiCuentaCuenta extends Schema.CollectionType {
       'api::cuenta.cuenta',
       'manyToMany',
       'api::establecimiento.establecimiento'
-    >;
-    cita: Attribute.Relation<
-      'api::cuenta.cuenta',
-      'oneToOne',
-      'api::cita.cita'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -902,11 +903,6 @@ export interface ApiEstablecimientoEstablecimiento
       'api::establecimiento.establecimiento',
       'manyToMany',
       'api::cuenta.cuenta'
-    >;
-    cita: Attribute.Relation<
-      'api::establecimiento.establecimiento',
-      'manyToOne',
-      'api::cita.cita'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;

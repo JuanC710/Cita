@@ -12,17 +12,25 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "establecimientos": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::establecimiento.establecimiento",
-      "mappedBy": "cita"
-    },
     "cuenta": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::cuenta.cuenta",
-      "inversedBy": "cita"
+      "target": "api::cuenta.cuenta"
+    },
+    "resturante": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::resturant.resturant"
+    },
+    "transporte": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::transporte.transporte"
+    },
+    "hotel": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::hotel.hotel"
     }
   }
 }

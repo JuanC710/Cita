@@ -56,12 +56,6 @@
       "relation": "manyToMany",
       "target": "api::cuenta.cuenta",
       "mappedBy": "establecimientos"
-    },
-    "cita": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::cita.cita",
-      "inversedBy": "establecimientos"
     }
   }
 }
